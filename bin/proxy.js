@@ -1,23 +1,17 @@
 #!/usr/bin/env node
-var url = require('url');
-var http = require('http');
-var httpProxy = require('http-proxy');
 
-//
-// Create your proxy server and set the target in the options.
-//
-var proxy = httpProxy.createProxyServer();
+var argv = require('yargs').argv;
 
 
-var server = require('http').createServer(function(req, res) {
-  // You can define here your custom logic to handle the request
-  // and then proxy the request.
-  console.log(req.url, url.parse(req.url));
-  var p = url.parse(req.url);
-  proxy.web(req, res, { target: p.protocol + '//' + p.host });
+var port = argv.p || argv.port || 5050;
+var base = argv.b || argv.base;
+
+var createProxyServer = require('../lib/proxy');
+
+var server = createProxyServer({
+  base: base,
+  cwd: argv.cwd || process.cwd()
 });
 
-console.log("listening on port 5050");
-server.listen(5050);
-
-
+server.listen(port);
+console.log("Start proxy to listen port: " + port + "...");
