@@ -3,7 +3,9 @@
 var yargs = require('yargs')
   .version(require('../package.json').version)
   .usage('Start proxy server for development.\nUsage: $0')
-  .example('$0 [-p,--port 5050]  [-b, --base host.com]', 'count the lines in the given file')
+  .example('$0 [-p,--port 5050]  [-b, --base host.com] [-E, --env alpha]', 'start the server on port 5050')
+  .alias('env', 'E')
+  .describe('env', 'environnment')
   .alias('b', 'base')
   .describe('b', 'base host')
   .alias('p', 'port')
@@ -19,6 +21,7 @@ if (argv.h || argv.help) {
 }
 
 
+var env = argv.E || argv.env;
 var port = argv.p || argv.port || 5050;
 var base = argv.b || argv.base;
 var prefix_mod = argv['prefix-mod'] || 'mod';
@@ -27,6 +30,7 @@ var prefix_concat = argv['prefix-concat'] || 'concat';
 var createProxyServer = require('../lib/proxy');
 
 var server = createProxyServer({
+  env: env,
   base: base,
   cwd: argv.cwd || process.cwd(),
   prefix: {

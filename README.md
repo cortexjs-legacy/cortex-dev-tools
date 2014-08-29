@@ -10,6 +10,14 @@ $ npm install cortex-dev-tools -g
 
 ## Usage
 
+### debug server for neocortex-4j 0.2.2
+
+Start debug server serve resource files via chrome extension. (You should run `cortex install` and `cortex build` before debug):
+
+```bash
+$ ctx-dserver -E alpha -p 5050
+```
+
 
 ### proxy
 
